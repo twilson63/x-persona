@@ -3,6 +3,7 @@ var request = require('supertest');
 var express = require('express');
 var app = express();
 
+// setup mock passport service
 var foo;
 
 mockery.registerMock('passport', {
@@ -36,14 +37,13 @@ mockery.registerMock('passport', {
   deserializeUser: function(fn) {}
 });
 
+// setup mock passport-persona service
 mockery.registerMock('passport-persona', {
   Strategy: function(opts, authFn) {
     this.opts = opts;
     this.fn = authFn;
   }
 });
-
-
 mockery.enable({
     warnOnReplace: false,
     warnOnUnregistered: false
@@ -52,8 +52,6 @@ mockery.enable({
 var authenticate = require('../');
 
 describe('persona session endpoint module', function() {
-  // before(mockery.enable);
-  // after(mockery.disable);
   before(function() {
     app.use('/_api/session', authenticate('localhost', function(email, done) {
       process.nextTick(function() {

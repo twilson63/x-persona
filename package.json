@@ -10,5 +10,9 @@
     "mockery": "~1.4.0",
     "supertest": "~0.8.2",
     "mocha": "~1.16.2"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
   }
 }

@@ -3,7 +3,11 @@
 This express module creates three endpoints to manage authentication
 using the `Persona` service.
 
-## USAGE
+## INSTALL
+
+`npm install express-passport-persona --save`
+
+## SETUP (example)
 
 ``` js
 var authenticate = require('express-passport-persona');
@@ -18,9 +22,27 @@ app.use('/_api/session', authenticate('localhost', function(email, done) {
 }));
 ```
 
-## INSTALL
+## API
 
-`npm install express-passport-persona --save`
+### LOGIN (PUT /_api/session)
+
+When Persona returns an assertion value, you need to submit a PUT via an ajax call.  Passing a `JSON` doc with the assertion.
+
+``` js
+request(app)
+  .put('/_api/session')
+  .send({ 
+    assertion: 'secret-assertion-data'
+  });
+```
+
+### SESSION (GET /_api/session)
+
+This api call will return the current session of the user logged into the system.
+
+### LOGOUT (DELETE /_api/session)
+
+This api call will perform a logout using the passport helper method.
 
 ## TEST
 
