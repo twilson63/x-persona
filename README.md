@@ -5,12 +5,12 @@ using the `Persona` service.
 
 ## INSTALL
 
-`npm install express-passport-persona --save`
+`npm install x-persona --save`
 
 ## SETUP (example)
 
 ``` js
-var authenticate = require('express-passport-persona');
+var authenticate = require('x-persona');
 
 // attach to the `_api/session` endpoint
 app.use('/_api/session', authenticate('localhost', function(email, done) {

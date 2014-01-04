@@ -43,6 +43,7 @@ module.exports = function(audience, authenticate) {
 
   // passport serialize methods
   passport.serializeUser(function(user, done) {
+    console.log(user);
     done(null, user.email);
   });
 
