@@ -28,6 +28,7 @@ mockery.registerMock('passport', {
   },
   authenticate: function() {
     return function(req, res, next) {
+      if (!req.body.assertion) { res.send(500); }
       foo.fn('foo@email.com', function() {
         next();
       });
@@ -67,30 +68,23 @@ describe('persona session endpoint module', function() {
         audience: 'http%3A%2F%2Flocalhost:3000'
       })
       .set('Accept', 'application/json')
-      .expect(200)
-      .end(function(err, res) {
-        if (err) return done(err);
-        done();
-      });
+      .expect(200, done);
+  });
+  it('should not login', function(done) {
+    request(app)
+      .put('/_api/session')
+      .expect(500, done);
   });
   it('should get current session', function(done) {
     request(app)
       .get('/_api/session')
-      .expect(200)
-      .end(function(err, res) {
-        if (err) return done(err);
-        done();
-      });
+      .expect(200, done);
   });
   it('should logout', function(done) {
     request(app)
       .del('/_api/session')
       .set('Accept', 'application/json')
-      .expect(200)
-      .end(function(err, res) {
-        if (err) return done(err);
-        done();
-      });
+      .expect(200, done);
   });
 
 });
