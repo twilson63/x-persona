@@ -12,7 +12,11 @@ using the `Persona` service.
 ``` js
 var authenticate = require('x-persona');
 
+app.use(express.cookieParser());
+app.use(express.session({ secret: 'secret foo'}));
+
 // attach to the `_api/session` endpoint
+
 app.use('/_api/session', authenticate('localhost', function(email, done) {
  nano.use(dbName).view('users', 'email', {key: email}, function(err, body) {
    if (err) { return done(err); }

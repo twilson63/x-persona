@@ -19,10 +19,7 @@ var PersonaStrategy = require('passport-persona').Strategy;
 // }));
 module.exports = function(audience, authenticate) {
   passport.use(new PersonaStrategy({ audience: audience }, authenticate));  
-  
-  app.use(express.cookieParser());
-  // TODO enable session store config to be passed in 
-  app.use(express.session({ secret: 'what does the fox say?'}));
+
   app.use(passport.initialize());
   app.use(passport.session());
 
