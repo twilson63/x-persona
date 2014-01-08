@@ -23,10 +23,6 @@ module.exports = function(audience, authenticate) {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // app.configure(function() {
-  // 
-  // });
-
   var handleSuccess = function(req,res) { res.send(200, req.user); };
   var handleLogout = function(req, res) { req.logout(); res.send(200); };
 
@@ -40,7 +36,6 @@ module.exports = function(audience, authenticate) {
 
   // passport serialize methods
   passport.serializeUser(function(user, done) {
-    console.log(user);
     done(null, user.email);
   });
 
