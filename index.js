@@ -17,7 +17,7 @@ var PersonaStrategy = require('passport-persona').Strategy;
 //     done(null, { email: email, id: body.rows[0].value } );
 //   });
 // }));
-module.exports = function(audience, authenticate) {
+module.exports = function(audience, authenticate, getUser, setUser) {
   passport.use(new PersonaStrategy({ audience: audience }, authenticate));  
 
   app.use(passport.initialize());
@@ -34,15 +34,20 @@ module.exports = function(audience, authenticate) {
   // DELETE Session -aka logout
   app.del('/', ensureAuthenticated, handleLogout);
 
+  if (!setUser) { 
+    setUser = function(user, done) {
+      done(null, user.email);
+    };
+  }
+
+  if (!getUser) {
+    getUser = function(email, done) {
+      done(null, { email: email });
+    };
+  }
   // passport serialize methods
-  passport.serializeUser(function(user, done) {
-    done(null, user.email);
-  });
-
-  passport.deserializeUser(function(email, done) {
-    done(null, { email: email });
-  });
-
+  passport.serializeUser(setUser);
+  passport.deserializeUser(getUser);
   // return module
   return app;
 };
